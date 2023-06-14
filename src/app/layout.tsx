@@ -6,6 +6,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: '2048',
   description: '2048',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
@@ -15,7 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} bg-bg w-[526px] mx-auto h-screen`}>
+        {children}
+      </body>
     </html>
   );
 }
