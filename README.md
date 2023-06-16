@@ -8,9 +8,13 @@
 
 ### 기술 스택
 
-next.js 13  
-typescript  
-tailwind css  
-redux/toolkit
+<div>
+<img src="https://img.shields.io/badge/Next.js-v13.4-000000"/>
+<img src="https://img.shields.io/badge/TypeScript-v5.1-2f74c0"/>
+<img src="https://img.shields.io/badge/Tailwind CSS-v3.3-38bdf8"/>
+<img src="https://img.shields.io/badge/Redux Toolkit-v1.9-764abc"/>
+</div>
 
 ### 배포 주소
+
+<https://2048-bisari31.vercel.app>
