@@ -2,40 +2,47 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Card from './Card';
-
-const initialGrid = [
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-];
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { down, generateCard, up, updateGrid } from '@/redux/boardSlice';
 
 export default function Board() {
-  const [grid, setGrid] = useState(initialGrid);
+  const grid = useAppSelector((state) => state.board.grid);
+  const dispatch = useAppDispatch();
 
-  const getRandomNumber = (num: number) => Math.floor(Math.random() * num);
-  const generateCard = useCallback(() => {
-    setGrid((prev) => {
-      const emptyValues = prev.reduce<number[][]>((acc, cur, idx) => {
-        cur.forEach((n, i) => n === 0 && acc.push([idx, i]));
+  const handleKeyDown = (e: KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowLeft': {
+        dispatch(updateGrid('left'));
+        break;
+      }
+      case 'ArrowRight': {
+        dispatch(updateGrid('right'));
+        break;
+      }
+      case 'ArrowUp': {
+        dispatch(up());
+        break;
+      }
+      case 'ArrowDown': {
+        dispatch(down());
+        break;
+      }
+      default:
+        return;
+    }
+    setTimeout(() => {
+      dispatch(generateCard());
+    }, 300);
+  };
 
-        return acc;
-      }, []);
-      const random = getRandomNumber(emptyValues.length);
-      const [row, col] = emptyValues[random];
-      return prev.map((r, rowIdx) =>
-        rowIdx === row
-          ? r.map((c, colIdx) =>
-              colIdx === col ? (getRandomNumber(10) === 0 ? 4 : 2) : c,
-            )
-          : r,
-      );
-    });
-  }, []);
   useEffect(() => {
-    generateCard();
-    generateCard();
-  }, [generateCard]);
+    dispatch(generateCard(2));
+  }, [dispatch]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  });
 
   return (
     <div className="bg-border p-[25px] mt-7 w-full h-[526px] rounded-md flex flex-wrap gap-2">

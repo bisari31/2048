@@ -1,3 +1,4 @@
+import Providers from '@/redux/Provider';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${inter.className} bg-bg w-[526px] mx-auto h-screen`}>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

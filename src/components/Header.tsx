@@ -1,6 +1,15 @@
+'use client';
+import { useAppDispatch } from '@/redux/store';
 import Score from './Score';
+import { generateCard, reset } from '@/redux/boardSlice';
 
 export default function Header() {
+  const dispatch = useAppDispatch();
+  const handleReset = () => {
+    dispatch(reset());
+    dispatch(generateCard(2));
+  };
+
   return (
     <header>
       <div className="flex justify-between">
@@ -17,7 +26,10 @@ export default function Header() {
             <Score type="SCORE" />
             <Score type="BEST" />
           </div>
-          <button className="mt-11 bg-button text-white text-sm font-bold px-3 py-4 rounded-md w-fit">
+          <button
+            onClick={handleReset}
+            className="mt-11 bg-button text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+          >
             New Game
           </button>
         </div>
