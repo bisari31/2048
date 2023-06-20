@@ -11,6 +11,7 @@ const initialState = {
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ],
+  isGameOver: false,
 };
 
 const boardSlice = createSlice({

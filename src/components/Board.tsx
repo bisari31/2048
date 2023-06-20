@@ -30,9 +30,10 @@ export default function Board() {
       default:
         return;
     }
-    setTimeout(() => {
-      dispatch(generateCard());
-    }, 300);
+    dispatch(generateCard());
+    // setTimeout(() => {
+    //   dispatch(generateCard());
+    // }, 300);
   };
 
   useEffect(() => {
