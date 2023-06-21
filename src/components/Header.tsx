@@ -1,13 +1,19 @@
 'use client';
-import { useAppDispatch } from '@/redux/store';
-import Score from './Score';
-import { generateCard, reset } from '@/redux/boardSlice';
-import Portal from '@/common/Portal';
-import Modal from './Modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useOutsideClick } from '@/hooks';
+import { generateCard, getStorageData, reset, test } from '@/redux/boardSlice';
+import { getBestScore, getGrid, getScore } from '@/utils/storage';
+
+import Score from './Score';
+import Portal from '@/common/Portal';
+import Modal from './modal/Modal';
+import HowToPlay from './modal/HowToPlay';
+import Rank from './modal/Rank';
 
 export default function Header() {
+  const { isGameOver } = useAppSelector(({ board }) => board);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useOutsideClick(setIsModalOpen);
   const dispatch = useAppDispatch();
@@ -16,17 +22,31 @@ export default function Header() {
   const handleReset = () => {
     dispatch(reset());
     dispatch(generateCard(2));
+    if (isModalOpen) setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    const best = getBestScore();
+    const score = getScore();
+    const grid = getGrid();
+    console.log({ best, score, grid });
+    if (best || score || grid?.length)
+      dispatch(getStorageData({ best, score, grid }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isGameOver) setIsModalOpen(true);
+  }, [isGameOver]);
 
   return (
     <header>
       <div className="flex justify-between">
         <div>
-          <h1 className="text-title-default font-black text-3xl cursor-default">
+          <h1 className="text-title font-black text-3xl cursor-default">
             2048
           </h1>
           <button
-            className="text-title-default font-black underline text-sm "
+            className="text-title font-black underline text-sm "
             onClick={handleModalToggle}
           >
             how to play?
@@ -37,17 +57,37 @@ export default function Header() {
             <Score type="SCORE" />
             <Score type="BEST" />
           </div>
-          <button
-            onClick={handleReset}
-            className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
-          >
-            New Game
-          </button>
+          <div className="flex gap-5">
+            <button
+              onClick={() => dispatch(test())}
+              className="right-[250px] absolute mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+            >
+              Test
+            </button>
+            <button
+              onClick={() => dispatch(test())}
+              className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+            >
+              Ranking
+            </button>
+            <button
+              onClick={handleReset}
+              className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+            >
+              New Game
+            </button>
+          </div>
         </div>
       </div>
       {isModalOpen && (
         <Portal>
-          <Modal ref={modalRef} onModalClose={handleModalToggle} />
+          <Modal ref={modalRef}>
+            {isGameOver ? (
+              <Rank onReset={handleReset} />
+            ) : (
+              <HowToPlay onModalClose={handleModalToggle} />
+            )}
+          </Modal>
         </Portal>
       )}
     </header>

@@ -1,24 +1,26 @@
 import { Direction, MethodMap } from '@/types/board';
+import { cloneDeep } from 'lodash';
 
-const type: MethodMap = {
-  down: 'unshift',
-  left: 'push',
-  right: 'unshift',
-  up: 'push',
+const METHOD_MAP: MethodMap = {
+  ArrowDown: 'unshift',
+  ArrowLeft: 'push',
+  ArrowRight: 'unshift',
+  ArrowUp: 'push',
 };
 
 export const getRandomNumber = (num: number) => Math.floor(Math.random() * num);
 
 export const setGrid = (grid: number[][], payload: Direction) => {
-  const isVertical = payload === 'up' || payload === 'down';
-  const method = type[payload];
+  const newGrid = cloneDeep(grid);
+  const isVertical = payload === 'ArrowUp' || payload === 'ArrowDown';
+  const method = METHOD_MAP[payload];
   let score = 0;
-  const newGrid: number[][] = [[], [], [], []];
-  (payload === 'down' ? grid.reverse() : grid).forEach((r, i) => {
+  const result: number[][] = [[], [], [], []];
+  (payload === 'ArrowDown' ? newGrid.reverse() : newGrid).forEach((r, i) => {
     const array: number[] = [];
     let previousNum: null | number = null;
-    (payload === 'right' ? r.reverse() : r).forEach((_, j) => {
-      let currentNum = isVertical ? grid[j][i] : grid[i][j];
+    (payload === 'ArrowRight' ? r.reverse() : r).forEach((_, j) => {
+      let currentNum = isVertical ? newGrid[j][i] : newGrid[i][j];
       if (currentNum !== 0) {
         if (previousNum === null) {
           previousNum = currentNum;
@@ -36,14 +38,14 @@ export const setGrid = (grid: number[][], payload: Direction) => {
       array[method](previousNum);
     }
 
-    const remainingLength = grid.length - array.length;
+    const remainingLength = newGrid.length - array.length;
     for (let i = 0; i < remainingLength; i++) {
       array[method](0);
     }
 
     array.forEach((n, idx) => {
-      isVertical ? newGrid[idx].push(n) : newGrid[i].push(n);
+      isVertical ? result[idx].push(n) : result[i].push(n);
     });
   });
-  return { newGrid, score };
+  return { result, score };
 };
