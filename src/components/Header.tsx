@@ -22,11 +22,11 @@ export default function Header() {
     <header>
       <div className="flex justify-between">
         <div>
-          <h1 className="text-title font-black text-3xl cursor-default">
+          <h1 className="text-title-default font-black text-3xl cursor-default">
             2048
           </h1>
           <button
-            className="text-title font-black underline text-sm "
+            className="text-title-default font-black underline text-sm "
             onClick={handleModalToggle}
           >
             how to play?
@@ -39,7 +39,7 @@ export default function Header() {
           </div>
           <button
             onClick={handleReset}
-            className="mt-11 bg-button hover:bg-[#f4a19b] text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+            className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
           >
             New Game
           </button>

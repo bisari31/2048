@@ -22,11 +22,20 @@ module.exports = {
         '3xl': '80px',
       },
       colors: {
-        title: '#F23041',
         score: '#504E50',
-        button: '#F28B84',
         bg: '#FFFCEB',
         border: '#FBE8B0',
+        button: {
+          default: '#F28B84',
+          hover: '#f0756d',
+          active: '#ed5f56',
+        },
+        title: {
+          default: '#F23041',
+          hover: '#f0182b',
+          active: '#e10e21',
+        },
+        'black-rgba': 'rgba(0,0,0,0.5)',
         card: {
           2: '#FFB649',
           4: '#E77676',
@@ -40,7 +49,6 @@ module.exports = {
           1024: '#753685',
           2048: '#C21841',
         },
-        'black-rgba': 'rgba(0,0,0,0.5)',
       },
     },
   },

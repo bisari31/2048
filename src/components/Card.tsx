@@ -11,7 +11,6 @@ const colors: { [key: number]: { bg: string; fontSize: string } } = {
   512: { bg: 'bg-card-512', fontSize: 'text-xl' },
   1024: { bg: 'bg-card-1024', fontSize: 'text-md' },
   2048: { bg: 'bg-card-2048', fontSize: 'text-md' },
-  4096: { bg: 'bg-card-4096', fontSize: 'text-md' },
 };
 
 export default function Card({ num }: { num: number }) {

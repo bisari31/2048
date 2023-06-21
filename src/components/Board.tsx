@@ -1,39 +1,39 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Card from './Card';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { down, generateCard, up, updateGrid } from '@/redux/boardSlice';
+import { generateCard, updateGrid } from '@/redux/boardSlice';
+import { Direction } from '@/types/board';
 
 export default function Board() {
-  const grid = useAppSelector((state) => state.board.grid);
+  const { grid } = useAppSelector((state) => state.board);
   const dispatch = useAppDispatch();
 
   const handleKeyDown = (e: KeyboardEvent) => {
+    let direction = '';
     switch (e.key) {
       case 'ArrowLeft': {
-        dispatch(updateGrid('left'));
+        direction = 'left';
         break;
       }
       case 'ArrowRight': {
-        dispatch(updateGrid('right'));
+        direction = 'right';
         break;
       }
       case 'ArrowUp': {
-        dispatch(up());
+        direction = 'up';
         break;
       }
       case 'ArrowDown': {
-        dispatch(down());
+        direction = 'down';
         break;
       }
       default:
         return;
     }
+    if (direction) dispatch(updateGrid(direction as Direction));
     dispatch(generateCard());
-    // setTimeout(() => {
-    //   dispatch(generateCard());
-    // }, 300);
   };
 
   useEffect(() => {

@@ -27,7 +27,7 @@ export default forwardRef(function Modal(
           <strong>2048</strong>을 만들면 게임이 종료됩니다!
         </p>
         <button
-          className="w-full mt-[35px] rounded-md bg-title py-3 px-6 font-bold text-bg hover:bg-[#f44857]"
+          className="w-full mt-[35px] rounded-md bg-title-default py-3 px-6 font-bold text-bg hover:bg-title-hover active:bg-title-active"
           type="button"
           onClick={onModalClose}
         >

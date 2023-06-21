@@ -1,5 +1,5 @@
 import { Direction } from '@/types/board';
-import { getRandomNumber, moveDown, moveUp, setGrid } from '@/utils';
+import { getRandomNumber, setGrid } from '@/utils';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -28,7 +28,7 @@ const boardSlice = createSlice({
     generateCard: (state, action: PayloadAction<number | undefined>) => {
       const isGridFull = state.grid.every((cur) => !cur.includes(0));
       if (isGridFull) {
-        return console.log('꽉 참');
+        console.log('sdfds');
       }
       const { payload = 1 } = action;
       for (let i = 0; i < payload; i++) {
@@ -42,7 +42,7 @@ const boardSlice = createSlice({
         state.grid = state.grid.map((r, rowIdx) =>
           rowIdx === row
             ? r.map((c, colIdx) =>
-                colIdx === col ? (getRandomNumber(20) === 0 ? 4 : 2) : c,
+                colIdx === col ? (getRandomNumber(10) === 0 ? 4 : 2) : c,
               )
             : r,
         );
@@ -53,19 +53,9 @@ const boardSlice = createSlice({
       state.grid = newGrid;
       state.score += score;
     },
-    up: (state) => {
-      const { newGrid, score } = moveUp(state.grid);
-      state.grid = newGrid;
-      state.score += score;
-    },
-    down: (state) => {
-      const { newGrid, score } = moveDown(state.grid);
-      state.grid = newGrid;
-      state.score += score;
-    },
   },
 });
 
-export const { increaseScore, reset, generateCard, updateGrid, up, down } =
+export const { increaseScore, reset, generateCard, updateGrid } =
   boardSlice.actions;
 export default boardSlice.reducer;
