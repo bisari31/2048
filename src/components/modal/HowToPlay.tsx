@@ -1,7 +1,9 @@
+import { ModalType } from '@/types/board';
+
 export default function HowToPlay({
   onModalClose,
 }: {
-  onModalClose: () => void;
+  onModalClose: (type: ModalType) => void;
 }) {
   return (
     <>
@@ -16,9 +18,9 @@ export default function HowToPlay({
         을 만들면 게임이 종료됩니다!
       </p>
       <button
-        className="w-full mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-bg hover:bg-button-hover active:bg-button-active"
+        className="w-full mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
         type="button"
-        onClick={onModalClose}
+        onClick={() => onModalClose('howToPlay')}
       >
         확인
       </button>

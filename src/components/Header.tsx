@@ -5,24 +5,26 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { useOutsideClick } from '@/hooks';
 import { generateCard, getStorageData, reset, test } from '@/redux/boardSlice';
 import { getBestScore, getGrid, getScore } from '@/utils/storage';
+import { ModalType } from '@/types/board';
 
 import Score from './Score';
-import Portal from '@/common/Portal';
 import Modal from './modal/Modal';
-import HowToPlay from './modal/HowToPlay';
-import Rank from './modal/Rank';
 
 export default function Header() {
   const { isGameOver } = useAppSelector(({ board }) => board);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModal, setSelectedModal] = useState<ModalType>('howToPlay');
   const modalRef = useOutsideClick(setIsModalOpen);
   const dispatch = useAppDispatch();
 
-  const handleModalToggle = () => setIsModalOpen((prev) => !prev);
+  const handleModalToggle = (type: ModalType) => {
+    setIsModalOpen((prev) => !prev);
+    setSelectedModal(type);
+  };
+
   const handleReset = () => {
     dispatch(reset());
     dispatch(generateCard(2));
-    if (isModalOpen) setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -35,7 +37,10 @@ export default function Header() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isGameOver) setIsModalOpen(true);
+    if (isGameOver) {
+      setIsModalOpen(true);
+      setSelectedModal('gameOver');
+    }
   }, [isGameOver]);
 
   return (
@@ -47,7 +52,7 @@ export default function Header() {
           </h1>
           <button
             className="text-title font-black underline text-sm "
-            onClick={handleModalToggle}
+            onClick={() => handleModalToggle('howToPlay')}
           >
             how to play?
           </button>
@@ -65,7 +70,7 @@ export default function Header() {
               Test
             </button>
             <button
-              onClick={() => dispatch(test())}
+              onClick={() => handleModalToggle('ranking')}
               className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
             >
               Ranking
@@ -79,17 +84,12 @@ export default function Header() {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <Portal>
-          <Modal ref={modalRef}>
-            {isGameOver ? (
-              <Rank onReset={handleReset} />
-            ) : (
-              <HowToPlay onModalClose={handleModalToggle} />
-            )}
-          </Modal>
-        </Portal>
-      )}
+      <Modal
+        selectedModal={selectedModal}
+        isModalOpen={isModalOpen}
+        ref={modalRef}
+        onModalClose={handleModalToggle}
+      />
     </header>
   );
 }

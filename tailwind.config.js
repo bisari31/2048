@@ -21,6 +21,7 @@ module.exports = {
         '2xl': '60px',
         '3xl': '80px',
       },
+
       colors: {
         score: '#504E50',
         bg: '#FFFCEB',
@@ -30,6 +31,9 @@ module.exports = {
           default: '#2FB786',
           hover: '#2aa377',
           active: '#258e68',
+          2: '#46a080',
+          3: '#578f7b',
+          4: '#6e7874',
         },
         'black-rgba': 'rgba(0,0,0,0.5)',
         card: {
