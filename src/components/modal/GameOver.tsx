@@ -2,7 +2,9 @@ import { useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/boardSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { ModalType } from '@/types/board';
-import { FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+
+const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 
 export default function GameOver({
   onModalClose,
@@ -13,13 +15,23 @@ export default function GameOver({
   const dispatch = useAppDispatch();
   const inputRef = useFocus<HTMLInputElement>();
   const [nickname, setNickname] = useState('');
+  const [isNicknameValid, setIsNicknameValid] = useState(true);
+  const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!nicknameRegex.test(e.target.value)) {
+      setIsNicknameValid(false);
+    } else {
+      setIsNicknameValid(true);
+    }
+    setNickname(e.target.value);
+  };
 
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isNicknameValid) return;
     localStorage.setItem('nickname', nickname);
-
     const res = await fetch('http://localhost:5000/ranking', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         nickname,
         score,
@@ -40,22 +52,31 @@ export default function GameOver({
 
   return (
     <>
-      <h2 className="text-lg font-bold text-score text-center">{score}점</h2>
-      <input
-        ref={inputRef}
-        className="mt-[35px] w-full bg-score rounded-md py-3 px-6 border-none text-white placeholder-gray-300 outline-none"
-        placeholder="닉네임 (한글,영문,숫자 2~12자)"
-        type="text"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-      />
-      <button
-        onClick={handleSave}
-        className="w-[400px] mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
-        type="submit"
-      >
-        저장
-      </button>
+      <form action="" onSubmit={handleSave} className="flex flex-col">
+        <h2 className="text-lg font-bold text-score text-center">{score}점</h2>
+        <input
+          ref={inputRef}
+          className={`${
+            !isNicknameValid ? `border-2 border-title` : 'border-none'
+          } 
+          mt-[35px] w-full bg-score rounded-md py-3 px-6 text-white placeholder-gray-300 outline-none`}
+          placeholder="닉네임 (한글,영문,숫자 2~12자)"
+          type="text"
+          value={nickname}
+          onChange={handleNicknameChange}
+        />
+        {!isNicknameValid && (
+          <p className="mt-[10px] text-title text-center">
+            닉네임이 올바르지 않습니다. (한글,영문,숫자 2~12자)
+          </p>
+        )}
+        <button
+          className="w-[400px] mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
+          type="submit"
+        >
+          저장
+        </button>
+      </form>
     </>
   );
 }
