@@ -17,28 +17,32 @@ export default function Ranking({
 }: {
   onModalClose: (type: ModalType) => void;
 }) {
-  const [ranking, setRanking] = useState<UserScore[]>();
+  const [users, setUsers] = useState<UserScore[]>();
+  const [page, setPage] = useState(1);
+  const limit = 7;
+  const offset = (page - 1) * limit;
+  const totalPages = Math.ceil((users?.length ?? 0) / limit);
 
   useEffect(() => {
     async function getData() {
       const res = await fetch('http://localhost:5000/ranking');
       const data: UserScore[] = await res.json();
       data.sort((a, b) => b.score - a.score);
-      setRanking(data);
+      setUsers(data);
     }
     getData();
   }, []);
   return (
     <>
-      <ul className="flex flex-col gap-2">
-        {ranking?.map((n, i) => (
+      <ul className="flex flex-col gap-2 min-h-[328px]">
+        {users?.slice(offset, offset + limit).map((n, i) => (
           <li
             key={n.id}
             className={`w-[400px] flex justify-between py-2 px-5 ${getBgClassName(
-              i + 1,
+              i + offset + 1,
             )} text-white rounded-md`}
           >
-            <span>{i + 1}등</span>
+            <span>{i + 1 + offset}등</span>
             <span>{n.nickname}</span>
             <span>{n.score}점</span>
           </li>
@@ -47,15 +51,18 @@ export default function Ranking({
       <div className="flex justify-between w-full mt-[20px]">
         <button
           type="button"
-          onClick={() => console.log('sdf')}
-          className="p-1 rounded-full  bg-button-default "
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+          className="w-[30px] flex items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
         >
           <LeftChevron width={20} height={20} color="#fff" stroke="#fff" />
         </button>
+        <span className="text-button-default text-sm">{page}</span>
         <button
+          disabled={page === totalPages}
           type="button"
-          onClick={() => console.log('sdf')}
-          className="p-1 rounded-full bg-button-default "
+          onClick={() => setPage(page + 1)}
+          className="w-[30px] flex items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
         >
           <RightChevron width={20} height={20} color="#fff" stroke="#fff" />
         </button>
