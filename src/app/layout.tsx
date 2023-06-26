@@ -19,8 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-bg w-[526px] mx-auto h-screen`}>
+      <body className={`${inter.className} bg-bg  mx-auto h-screen`}>
         <Providers>{children}</Providers>
+        <div id="portal" />
       </body>
     </html>
   );
