@@ -11,9 +11,9 @@ export default function Score({ type }: Props) {
 
   return (
     <div className="flex flex-col justify-center items-center bg-score text-white rounded-md py-2 px-3 w-[125px]">
-      <span className="font-bold text-[10px] md:text-[16px]">{type}</span>
+      <span className="font-bold text-[14px] md:text-[16px]">{type}</span>
       <span
-        className={`font-bold text-sm ${
+        className={`font-bold text-md ${
           score < 10000 ? `md:text-lg` : `md:text-md`
         }`}
       >
