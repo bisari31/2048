@@ -63,12 +63,12 @@ export default function Header() {
             <Score type="BEST" />
           </div>
           <div className="flex gap-x-3 md:gap-5 text-[13px] md:text-sm text-white mt-5 md:mt-0">
-            <button
+            {/* <button
               onClick={() => dispatch(test())}
               className="left-[50px] absolute bg-button-default hover:bg-button-hover text-inherit font-bold active:bg-button-active px-3 py-4 rounded-md"
             >
               Test
-            </button>
+            </button> */}
             <button
               onClick={() => handleModalToggle('ranking')}
               className="h-full md:h-fit bg-button-default hover:bg-button-hover active:bg-button-active font-bold text-inherit px-3 py-4 rounded-md"
