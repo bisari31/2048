@@ -21,7 +21,7 @@ export default function Ranking({
   const [page, setPage] = useState(1);
   const limit = 7;
   const offset = (page - 1) * limit;
-  const totalPages = Math.ceil((users?.length ?? 0) / limit);
+  const totalPages = users?.length ? Math.ceil(users.length / limit) : 1;
 
   useEffect(() => {
     async function getData() {
@@ -34,11 +34,11 @@ export default function Ranking({
   }, []);
   return (
     <>
-      <ul className="flex flex-col gap-2 min-h-[328px]">
+      <ul className="flex flex-col gap-2 min-h-[328px] w-full">
         {users?.slice(offset, offset + limit).map((n, i) => (
           <li
             key={n.id}
-            className={`w-[400px] flex justify-between py-2 px-5 ${getBgClassName(
+            className={`flex justify-between py-2 px-5 ${getBgClassName(
               i + offset + 1,
             )} text-white rounded-md`}
           >

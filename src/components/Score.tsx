@@ -10,11 +10,11 @@ export default function Score({ type }: Props) {
   const score = useAppSelector((state) => state.board[scoreType]);
 
   return (
-    <div className="flex flex-col jus-cen items-center bg-score text-white rounded-md w-[120px] py-2 gap-2">
-      <span className="font-bold text-xs leading-5">{type}</span>
+    <div className="flex flex-col justify-center items-center bg-score text-white rounded-md py-2 px-3 w-[125px]">
+      <span className="font-bold text-[10px] md:text-[16px]">{type}</span>
       <span
-        className={`font-bold leading-10 ${
-          score < 10000 ? `text-lg` : `text-md`
+        className={`font-bold text-sm ${
+          score < 10000 ? `md:text-lg` : `md:text-md`
         }`}
       >
         {score}

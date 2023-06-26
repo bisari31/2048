@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 
 export default function page() {
   return (
-    <div className="w-full h-full flex flex-col  justify-center">
+    <div className="w-full h-full flex flex-col justify-center items-center">
       <Header />
       <Board />
     </div>

@@ -52,14 +52,14 @@ export default function GameOver({
 
   return (
     <>
-      <form action="" onSubmit={handleSave} className="flex flex-col">
+      <form action="" onSubmit={handleSave} className="flex flex-col w-full">
         <h2 className="text-lg font-bold text-score text-center">{score}점</h2>
         <input
           ref={inputRef}
           className={`${
             !isNicknameValid ? `border-2 border-title` : 'border-none'
           } 
-          mt-[35px] w-full bg-score rounded-md py-3 px-6 text-white placeholder-gray-300 outline-none`}
+          mt-[35px] bg-button-4 rounded-md py-3 px-6 text-white placeholder-gray-300 outline-none`}
           placeholder="닉네임 (한글,영문,숫자 2~12자)"
           type="text"
           value={nickname}
@@ -71,7 +71,7 @@ export default function GameOver({
           </p>
         )}
         <button
-          className="w-[400px] mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
+          className="mt-[35px] w-full rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
           type="submit"
         >
           저장

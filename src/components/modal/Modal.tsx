@@ -28,7 +28,7 @@ export default forwardRef(function Modal(
             className={`${notoSans.className} fixed left-0 top-0 right-0 bottom-0 bg-black-rgba`}
           >
             <div
-              className="shadow-2xl bg-bg p-10 rounded-md justify-center items-center flex-col flex absolute top-1/2 left-1/2 min-w-[350px] -translate-x-1/2 -translate-y-1/2"
+              className="max-w-[526px] w-10/12 shadow-2xl bg-bg p-10 rounded-md justify-center items-center flex-col flex absolute top-1/2 left-1/2 min-w-[350px] -translate-x-1/2 -translate-y-1/2"
               ref={ref}
             >
               {selectedModal === 'howToPlay' && (

@@ -1,69 +1,14 @@
 {
   "ranking": [
     {
-      "id": 1,
-      "nickname": "메시",
-      "score": 5586
+      "nickname": "qwe",
+      "score": 1804,
+      "id": 1
     },
     {
-      "id": 2,
-      "nickname": "날강두",
-      "score": 335
-    },
-    {
-      "id": 3,
-      "nickname": "가나다라막바사",
-      "score": 322
-    },
-    {
-      "id": 4,
-      "nickname": "중식코스요리초고수",
-      "score": 135
-    },
-    {
-      "id": 5,
-      "nickname": "a광광우럭따",
-      "score": 1352
-    },
-    {
-      "id": 6,
-      "nickname": "낭낭우럭따",
-      "score": 1352
-    },
-    {
-      "id": 7,
-      "nickname": "광광우럭따",
-      "score": 1352
-    },
-    {
-      "nickname": "ㄷㄷㄷㄷㅂㅈㄷㅈㅂㄷㅈㅂ",
-      "score": 0,
-      "id": 9
-    },
-    {
-      "nickname": "ㅋㅋ미쳤따리미쳤따리",
-      "score": 0,
-      "id": 10
-    },
-    {
-      "nickname": "ㅂㅈㄷㅈㅂㄷㅈㅂㄷㅈㅂ",
-      "score": 0,
-      "id": 11
-    },
-    {
-      "nickname": "ㅋㅋ간다잉",
-      "score": 0,
-      "id": 12
-    },
-    {
-      "nickname": "깝샷ㅎㅎㅎ",
-      "score": 1140,
-      "id": 13
-    },
-    {
-      "nickname": "밥만먹고2048하는중",
-      "score": 2328,
-      "id": 14
+      "nickname": "qwe",
+      "score": 480,
+      "id": 2
     }
   ]
 }

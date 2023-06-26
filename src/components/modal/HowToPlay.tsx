@@ -12,10 +12,8 @@ export default function HowToPlay({
         <br />
         같은 숫자들이 만나면 점수가 증가합니다.
         <br />
-        <strong className="bg-card-2048 text-white rounded h-10 w-10 mr-1 font-normal inline-block leading-10 text-xs">
-          2048
-        </strong>
-        을 만들면 게임이 종료됩니다!
+        <strong className="text-card-2048 mr-1 font-bold text-s">2048</strong>을
+        만들면 게임이 종료됩니다!
       </p>
       <button
         className="w-full mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"

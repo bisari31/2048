@@ -44,10 +44,10 @@ export default function Header() {
   }, [isGameOver]);
 
   return (
-    <header>
-      <div className="flex justify-between">
+    <header className="w-[324px] md:w-[526px]">
+      <div className="flex flex-col md:flex-row md:justify-between">
         <div>
-          <h1 className="text-title font-black text-3xl cursor-default">
+          <h1 className="text-title font-black text-xl md:text-3xl cursor-default">
             2048
           </h1>
           <button
@@ -57,27 +57,27 @@ export default function Header() {
             how to play?
           </button>
         </div>
-        <div className="flex flex-col items-end">
-          <div className="flex gap-x-3">
+        <div className="flex md:items-end flex-col gap-0 md:gap-8">
+          <div className="flex gap-x-3 mt-5 md:m-0">
             <Score type="SCORE" />
             <Score type="BEST" />
           </div>
-          <div className="flex gap-5">
+          <div className="flex gap-x-3 md:gap-5 text-[13px] md:text-sm text-white mt-5 md:mt-0">
             <button
               onClick={() => dispatch(test())}
-              className="right-[250px] absolute mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+              className="left-[50px] absolute bg-button-default hover:bg-button-hover text-inherit font-bold active:bg-button-active px-3 py-4 rounded-md"
             >
               Test
             </button>
             <button
               onClick={() => handleModalToggle('ranking')}
-              className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+              className="h-full md:h-fit bg-button-default hover:bg-button-hover active:bg-button-active font-bold text-inherit px-3 py-4 rounded-md"
             >
               Ranking
             </button>
             <button
               onClick={handleReset}
-              className="mt-11 bg-button-default hover:bg-button-hover active:bg-button-active text-white text-sm font-bold px-3 py-4 rounded-md w-fit"
+              className="h-full md:h-fit bg-button-default hover:bg-button-hover active:bg-button-active font-bold text-inherit px-3 py-4 rounded-md"
             >
               New Game
             </button>

@@ -43,7 +43,7 @@ export default function Board() {
   }, [handleKeyDown]);
 
   return (
-    <div className="bg-border p-[25px] mt-7 w-full h-[526px] rounded-md flex flex-wrap gap-2">
+    <div className="w-[324px] h-[324px] md:w-[526px] md:h-[526px] bg-border p-[10px] md:p-[25px] mt-7 rounded-md grid-rows-4 grid-cols-4 grid gap-2">
       {grid.map((row) => row.map((n, i) => <Card key={i} num={n} />))}
     </div>
   );
