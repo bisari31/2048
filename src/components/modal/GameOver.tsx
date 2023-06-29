@@ -64,6 +64,12 @@ export default function GameOver({
           type="text"
           value={nickname}
           onChange={handleNicknameChange}
+          onFocus={({ currentTarget }) =>
+            currentTarget.setSelectionRange(
+              currentTarget.value.length,
+              currentTarget.value.length,
+            )
+          }
         />
         {!isNicknameValid && (
           <p className="mt-[10px] text-title text-center">
