@@ -1,8 +1,8 @@
-import { useFocus } from '@/hooks';
-import { generateCard, reset } from '@/redux/boardSlice';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { ModalType } from '@/types/board';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+
+import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
+import { generateCard, reset } from '@/redux/slices/boardSlice';
+import { ModalType } from '@/types/board';
 
 const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 

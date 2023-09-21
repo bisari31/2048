@@ -1,5 +1,6 @@
 'use client';
-import { useAppSelector } from '@/redux/store';
+
+import { useAppSelector } from '@/hooks';
 
 interface Props {
   type: 'SCORE' | 'BEST';
