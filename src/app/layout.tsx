@@ -1,6 +1,7 @@
-import Providers from '@/redux/Provider';
-import './globals.css';
 import { Inter } from 'next/font/google';
+
+import './globals.css';
+import Providers from '@/redux/Provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-bg  mx-auto h-screen`}>
+      <body className={`${inter.className} mx-auto  h-screen bg-bg`}>
         <Providers>{children}</Providers>
         <div id="portal" />
       </body>
