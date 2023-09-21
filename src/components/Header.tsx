@@ -47,22 +47,22 @@ export default function Header() {
     <header className="w-[324px] md:w-[526px]">
       <div className="flex flex-col md:flex-row md:justify-between">
         <div>
-          <h1 className="text-title font-black text-xl md:text-3xl cursor-default">
+          <h1 className="cursor-default text-xl font-black text-title md:text-3xl">
             2048
           </h1>
           <button
-            className="text-title font-black underline text-sm "
+            className="text-sm font-black text-title underline "
             onClick={() => handleModalToggle('howToPlay')}
           >
             how to play?
           </button>
         </div>
-        <div className="flex md:items-end flex-col gap-0 md:gap-8">
-          <div className="flex gap-x-3 mt-5 md:m-0">
+        <div className="flex flex-col gap-0 md:items-end md:gap-8">
+          <div className="mt-5 flex gap-x-3 md:m-0">
             <Score type="SCORE" />
             <Score type="BEST" />
           </div>
-          <div className="flex gap-x-3 md:gap-5 text-[13px] md:text-sm text-white mt-5 md:mt-0">
+          <div className="mt-5 flex gap-x-3 text-[13px] text-white md:mt-0 md:gap-5 md:text-sm">
             {/* <button
               onClick={() => dispatch(test())}
               className="left-[50px] absolute bg-button-default hover:bg-button-hover text-inherit font-bold active:bg-button-active px-3 py-4 rounded-md"
@@ -71,13 +71,13 @@ export default function Header() {
             </button> */}
             <button
               onClick={() => handleModalToggle('ranking')}
-              className="h-full md:h-fit bg-button-default hover:bg-button-hover active:bg-button-active font-bold text-inherit px-3 py-4 rounded-md"
+              className="h-full rounded-md bg-button-default px-3 py-4 font-bold text-inherit hover:bg-button-hover active:bg-button-active md:h-fit"
             >
               Ranking
             </button>
             <button
               onClick={handleReset}
-              className="h-full md:h-fit bg-button-default hover:bg-button-hover active:bg-button-active font-bold text-inherit px-3 py-4 rounded-md"
+              className="h-full rounded-md bg-button-default px-3 py-4 font-bold text-inherit hover:bg-button-hover active:bg-button-active md:h-fit"
             >
               New Game
             </button>

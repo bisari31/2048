@@ -88,7 +88,7 @@ export default function Board() {
   }, [handleDispatch]);
 
   return (
-    <div className="w-[324px] h-[324px] md:w-[526px] md:h-[526px] bg-border p-[10px] md:p-[25px] mt-7 rounded-md grid-rows-4 grid-cols-4 grid gap-2">
+    <div className="mt-7 grid h-[324px] w-[324px] grid-cols-4 grid-rows-4 gap-2 rounded-md bg-border p-[10px] md:h-[526px] md:w-[526px] md:p-[25px]">
       {grid.map((row) => row.map((n, i) => <Card key={i} num={n} />))}
     </div>
   );
