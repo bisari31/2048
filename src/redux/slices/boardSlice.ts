@@ -1,6 +1,7 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
 import { Direction } from '@/types/board';
 import { getRandomNumber, setGrid } from '@/utils/board';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   score: 0,
