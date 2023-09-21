@@ -1,9 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { useOutsideClick } from '@/hooks';
-import { generateCard, getStorageData, reset, test } from '@/redux/boardSlice';
+import { useAppDispatch, useAppSelector, useOutsideClick } from '@/hooks';
+import {
+  generateCard,
+  getStorageData,
+  reset,
+  test,
+} from '@/redux/slices/boardSlice';
 import { getBestScore, getGrid, getScore } from '@/utils/storage';
 import { ModalType } from '@/types/board';
 

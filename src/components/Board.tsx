@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { generateCard, updateGrid } from '@/redux/boardSlice';
+import { generateCard, updateGrid } from '@/redux/slices/boardSlice';
 import { Direction } from '@/types/board';
 import { getGrid, getScore } from '@/utils/storage';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import Card from './Card';
 
