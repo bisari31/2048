@@ -4,6 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/slices/boardSlice';
 import { ModalType } from '@/types/board';
+import Loading from '../loading/Loading';
 
 const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 
@@ -13,11 +14,15 @@ export default function GameOver({
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
+
   const { score } = useAppSelector(({ board }) => board);
   const dispatch = useAppDispatch();
   const inputRef = useFocus<HTMLInputElement>();
+
   const [nickname, setNickname] = useState('');
   const [isNicknameValid, setIsNicknameValid] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!nicknameRegex.test(e.target.value)) {
       setIsNicknameValid(false);
@@ -32,6 +37,7 @@ export default function GameOver({
     if (!isNicknameValid) return;
     localStorage.setItem('nickname', nickname);
     try {
+      setLoading(true);
       const { error, status } = await supabase
         .from('score')
         .insert({ nickname, score });
@@ -46,6 +52,8 @@ export default function GameOver({
       }
     } catch (err) {
       alert('score insert error');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,6 +94,7 @@ export default function GameOver({
         >
           저장
         </button>
+        {loading && <Loading />}
       </form>
     </>
   );
