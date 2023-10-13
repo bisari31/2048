@@ -30,7 +30,11 @@ export default function Ranking({
   useEffect(() => {
     const getScore = async () => {
       try {
-        const { data, error, status } = await supabase.from('score').select();
+        const { data, error, status } = await supabase
+          .from('score')
+          .select('*')
+          .order('score', { ascending: false });
+        // .order('score');
         if (error && status !== 406) {
           throw error;
         }
