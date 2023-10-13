@@ -16,7 +16,7 @@ const colors: { [key: number]: { bg: string; fontSize: string[] } } = {
 export default function Card({ num }: { num: number }) {
   return (
     <div
-      className={`rounded-md flex justify-center items-center font-bold text-white ${colors[num].bg} ${colors[num].fontSize[0]} ${colors[num].fontSize[1]}`}
+      className={`flex items-center justify-center rounded-md font-bold text-white ${colors[num].bg} ${colors[num].fontSize[0]} ${colors[num].fontSize[1]}`}
     >
       {num === 0 ? '' : num}
     </div>

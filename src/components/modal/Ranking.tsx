@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { ModalType } from '@/types/board';
 import { UserScore } from '@/types/score';
@@ -12,6 +13,8 @@ const getBgClassName = (i: number) => {
   return 'bg-button-4';
 };
 
+const LIMIT = 7;
+
 export default function Ranking({
   onModalClose,
 }: {
@@ -19,28 +22,35 @@ export default function Ranking({
 }) {
   const [users, setUsers] = useState<UserScore[]>();
   const [page, setPage] = useState(1);
-  const limit = 7;
-  const offset = (page - 1) * limit;
-  const totalPages = users?.length ? Math.ceil(users.length / limit) : 1;
+  const supabase = createClientComponentClient();
+
+  const offset = (page - 1) * LIMIT;
+  const totalPages = users?.length ? Math.ceil(users.length / LIMIT) : 1;
 
   useEffect(() => {
-    async function getData() {
-      const res = await fetch('http://localhost:5000/ranking');
-      const data: UserScore[] = await res.json();
-      data.sort((a, b) => b.score - a.score);
-      setUsers(data);
-    }
-    getData();
-  }, []);
+    const getScore = async () => {
+      try {
+        const { data, error, status } = await supabase.from('score').select();
+        if (error && status !== 406) {
+          throw error;
+        }
+        if (data) setUsers(data);
+      } catch (err) {
+        alert('error loading score data');
+      }
+    };
+    getScore();
+  }, [supabase]);
+
   return (
     <>
-      <ul className="flex flex-col gap-2 min-h-[328px] w-full">
-        {users?.slice(offset, offset + limit).map((n, i) => (
+      <ul className="flex min-h-[328px] w-full flex-col gap-2">
+        {users?.slice(offset, offset + LIMIT).map((n, i) => (
           <li
             key={n.id}
-            className={`flex justify-between py-2 px-5 ${getBgClassName(
+            className={`flex justify-between px-5 py-2 ${getBgClassName(
               i + offset + 1,
-            )} text-white rounded-md`}
+            )} rounded-md text-white`}
           >
             <span>{i + 1 + offset}등</span>
             <span>{n.nickname}</span>
@@ -48,28 +58,28 @@ export default function Ranking({
           </li>
         ))}
       </ul>
-      <div className="flex justify-between w-full mt-[20px]">
+      <div className="mt-[20px] flex w-full justify-between">
         <button
           type="button"
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
-          className="w-[30px] flex items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
+          className="flex w-[30px] items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
         >
           <LeftChevron width={20} height={20} color="#fff" stroke="#fff" />
         </button>
-        <span className="text-button-default text-sm">{page}</span>
+        <span className="text-sm text-button-default">{page}</span>
         <button
           disabled={page === totalPages}
           type="button"
           onClick={() => setPage(page + 1)}
-          className="w-[30px] flex items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
+          className="flex w-[30px] items-center justify-center rounded-full bg-button-default hover:bg-button-hover active:bg-button-active"
         >
           <RightChevron width={20} height={20} color="#fff" stroke="#fff" />
         </button>
       </div>
       <button
         onClick={() => onModalClose('ranking')}
-        className="w-full mt-[35px] rounded-md bg-button-default py-3 px-6 font-bold text-white hover:bg-button-hover active:bg-button-active"
+        className="mt-[35px] w-full rounded-md bg-button-default px-6 py-3 font-bold text-white hover:bg-button-hover active:bg-button-active"
         type="button"
       >
         확인
