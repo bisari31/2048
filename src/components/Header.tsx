@@ -35,7 +35,6 @@ export default function Header() {
     const best = getBestScore();
     const score = getScore();
     const grid = getGrid();
-    console.log({ best, score, grid });
     if (best || score || grid?.length)
       dispatch(getStorageData({ best, score, grid }));
   }, [dispatch]);

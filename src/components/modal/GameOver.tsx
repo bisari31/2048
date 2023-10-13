@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/slices/boardSlice';
@@ -11,6 +12,7 @@ export default function GameOver({
 }: {
   onModalClose: (type: ModalType) => void;
 }) {
+  const supabase = createClientComponentClient();
   const { score } = useAppSelector(({ board }) => board);
   const dispatch = useAppDispatch();
   const inputRef = useFocus<HTMLInputElement>();
@@ -29,19 +31,21 @@ export default function GameOver({
     e.preventDefault();
     if (!isNicknameValid) return;
     localStorage.setItem('nickname', nickname);
-    const res = await fetch('http://localhost:5000/ranking', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nickname,
-        score,
-      }),
-    });
-    const data = await res.json();
-    if (data) {
-      onModalClose('gameOver');
-      dispatch(reset());
-      dispatch(generateCard(2));
+    try {
+      const { error, status } = await supabase
+        .from('score')
+        .insert({ nickname, score });
+
+      if (status === 201) {
+        onModalClose('gameOver');
+        dispatch(reset());
+        dispatch(generateCard(2));
+      }
+      if (error) {
+        throw error;
+      }
+    } catch (err) {
+      alert('score insert error');
     }
   };
 
