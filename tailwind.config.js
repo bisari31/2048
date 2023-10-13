@@ -50,6 +50,7 @@ module.exports = {
           2048: '#F23041',
         },
       },
+      keyframes: {},
     },
   },
   plugins: [],

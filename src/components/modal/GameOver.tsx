@@ -1,23 +1,32 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { ToastType } from 'react-hot-toast';
 
 import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/slices/boardSlice';
 import { ModalType } from '@/types/board';
 
+import Loading from '../loading/Loading';
+
 const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 
 export default function GameOver({
   onModalClose,
+  toast,
 }: {
+  toast: any;
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
+
   const { score } = useAppSelector(({ board }) => board);
   const dispatch = useAppDispatch();
   const inputRef = useFocus<HTMLInputElement>();
+
   const [nickname, setNickname] = useState('');
   const [isNicknameValid, setIsNicknameValid] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!nicknameRegex.test(e.target.value)) {
       setIsNicknameValid(false);
@@ -32,6 +41,7 @@ export default function GameOver({
     if (!isNicknameValid) return;
     localStorage.setItem('nickname', nickname);
     try {
+      setLoading(true);
       const { error, status } = await supabase
         .from('score')
         .insert({ nickname, score });
@@ -42,10 +52,13 @@ export default function GameOver({
         dispatch(generateCard(2));
       }
       if (error) {
+        toast;
         throw error;
       }
     } catch (err) {
-      alert('score insert error');
+      toast.error('저장에 실패하였습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,6 +99,7 @@ export default function GameOver({
         >
           저장
         </button>
+        {loading && <Loading />}
       </form>
     </>
   );
