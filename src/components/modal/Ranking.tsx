@@ -6,6 +6,8 @@ import { UserScore } from '@/types/score';
 import LeftChevron from '@/assets/left-chevron.svg';
 import RightChevron from '@/assets/right-chevron.svg';
 
+import SkeletonScore from '../loading/SkeletonScore';
+
 const getBgClassName = (i: number) => {
   if (i === 1) return 'bg-button-default';
   if (i === 2) return 'bg-button-2';
@@ -20,9 +22,11 @@ export default function Ranking({
 }: {
   onModalClose: (type: ModalType) => void;
 }) {
+  const supabase = createClientComponentClient();
+
   const [users, setUsers] = useState<UserScore[]>();
   const [page, setPage] = useState(1);
-  const supabase = createClientComponentClient();
+  const [loading, setLoading] = useState(false);
 
   const offset = (page - 1) * LIMIT;
   const totalPages = users?.length ? Math.ceil(users.length / LIMIT) : 1;
@@ -30,17 +34,19 @@ export default function Ranking({
   useEffect(() => {
     const getScore = async () => {
       try {
+        setLoading(true);
         const { data, error, status } = await supabase
           .from('score')
           .select('*')
           .order('score', { ascending: false });
-        // .order('score');
         if (error && status !== 406) {
           throw error;
         }
         if (data) setUsers(data);
       } catch (err) {
         alert('error loading score data');
+      } finally {
+        setLoading(false);
       }
     };
     getScore();
@@ -49,18 +55,22 @@ export default function Ranking({
   return (
     <>
       <ul className="flex min-h-[328px] w-full flex-col gap-2">
-        {users?.slice(offset, offset + LIMIT).map((n, i) => (
-          <li
-            key={n.id}
-            className={`flex justify-between px-5 py-2 ${getBgClassName(
-              i + offset + 1,
-            )} rounded-md text-white`}
-          >
-            <span>{i + 1 + offset}등</span>
-            <span>{n.nickname}</span>
-            <span>{n.score}점</span>
-          </li>
-        ))}
+        {loading ? (
+          <SkeletonScore limit={LIMIT} />
+        ) : (
+          users?.slice(offset, offset + LIMIT).map((n, i) => (
+            <li
+              key={n.id}
+              className={`flex justify-between px-5 py-2 ${getBgClassName(
+                i + offset + 1,
+              )} rounded-md text-white`}
+            >
+              <span>{i + 1 + offset}등</span>
+              <span>{n.nickname}</span>
+              <span>{n.score}점</span>
+            </li>
+          ))
+        )}
       </ul>
       <div className="mt-[20px] flex w-full justify-between">
         <button
