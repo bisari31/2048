@@ -1,16 +1,20 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { ToastType } from 'react-hot-toast';
 
 import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/slices/boardSlice';
 import { ModalType } from '@/types/board';
+
 import Loading from '../loading/Loading';
 
 const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 
 export default function GameOver({
   onModalClose,
+  toast,
 }: {
+  toast: any;
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
@@ -48,10 +52,11 @@ export default function GameOver({
         dispatch(generateCard(2));
       }
       if (error) {
+        toast;
         throw error;
       }
     } catch (err) {
-      alert('score insert error');
+      toast.error('저장에 실패하였습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }

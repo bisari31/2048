@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { ModalType } from '@/types/board';
 import { UserScore } from '@/types/score';
@@ -19,7 +20,9 @@ const LIMIT = 7;
 
 export default function Ranking({
   onModalClose,
+  toast,
 }: {
+  toast: any;
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
@@ -32,6 +35,7 @@ export default function Ranking({
   const totalPages = users?.length ? Math.ceil(users.length / LIMIT) : 1;
 
   useEffect(() => {
+    console.log('dd');
     const getScore = async () => {
       try {
         setLoading(true);
@@ -44,13 +48,15 @@ export default function Ranking({
         }
         if (data) setUsers(data);
       } catch (err) {
-        alert('error loading score data');
+        toast.error(
+          '데이터 정보를 조회하는데 실패하였습니다. 잠시 후 다시 시도해주세요.',
+        );
       } finally {
         setLoading(false);
       }
     };
     getScore();
-  }, [supabase]);
+  }, [supabase, toast]);
 
   return (
     <>
