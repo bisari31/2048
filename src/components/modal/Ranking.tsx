@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { ModalType } from '@/types/board';
 import { UserScore } from '@/types/score';
@@ -12,6 +13,8 @@ const getBgClassName = (i: number) => {
   return 'bg-button-4';
 };
 
+const LIMIT = 7;
+
 export default function Ranking({
   onModalClose,
 }: {
@@ -19,23 +22,30 @@ export default function Ranking({
 }) {
   const [users, setUsers] = useState<UserScore[]>();
   const [page, setPage] = useState(1);
-  const limit = 7;
-  const offset = (page - 1) * limit;
-  const totalPages = users?.length ? Math.ceil(users.length / limit) : 1;
+  const supabase = createClientComponentClient();
+
+  const offset = (page - 1) * LIMIT;
+  const totalPages = users?.length ? Math.ceil(users.length / LIMIT) : 1;
 
   useEffect(() => {
-    async function getData() {
-      const res = await fetch('http://localhost:5000/ranking');
-      const data: UserScore[] = await res.json();
-      data.sort((a, b) => b.score - a.score);
-      setUsers(data);
-    }
-    getData();
-  }, []);
+    const getScore = async () => {
+      try {
+        const { data, error, status } = await supabase.from('score').select();
+        if (error && status !== 406) {
+          throw error;
+        }
+        if (data) setUsers(data);
+      } catch (err) {
+        alert('error loading score data');
+      }
+    };
+    getScore();
+  }, [supabase]);
+
   return (
     <>
       <ul className="flex min-h-[328px] w-full flex-col gap-2">
-        {users?.slice(offset, offset + limit).map((n, i) => (
+        {users?.slice(offset, offset + LIMIT).map((n, i) => (
           <li
             key={n.id}
             className={`flex justify-between px-5 py-2 ${getBgClassName(
