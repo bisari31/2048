@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { Noto_Sans_KR } from 'next/font/google';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 import { ModalType } from '@/types/board';
 
@@ -36,10 +36,10 @@ export default forwardRef(function Modal(
                 <HowToPlay onModalClose={onModalClose} />
               )}
               {selectedModal === 'ranking' && (
-                <Ranking toast={toast} onModalClose={onModalClose} />
+                <Ranking onModalClose={onModalClose} />
               )}
               {selectedModal === 'gameOver' && (
-                <GameOver toast={toast} onModalClose={onModalClose} />
+                <GameOver onModalClose={onModalClose} />
               )}
             </div>
           </div>

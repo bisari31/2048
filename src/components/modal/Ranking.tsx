@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { ModalType } from '@/types/board';
 import { UserScore } from '@/types/score';
@@ -20,9 +20,7 @@ const LIMIT = 7;
 
 export default function Ranking({
   onModalClose,
-  toast,
 }: {
-  toast: any;
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
@@ -56,7 +54,7 @@ export default function Ranking({
       }
     };
     getScore();
-  }, [supabase, toast]);
+  }, [supabase]);
 
   return (
     <>
