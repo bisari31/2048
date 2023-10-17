@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import type { ToastType } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 import { useAppDispatch, useAppSelector, useFocus } from '@/hooks';
 import { generateCard, reset } from '@/redux/slices/boardSlice';
@@ -12,9 +12,7 @@ const nicknameRegex = /^[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]{2,12}$/;
 
 export default function GameOver({
   onModalClose,
-  toast,
 }: {
-  toast: any;
   onModalClose: (type: ModalType) => void;
 }) {
   const supabase = createClientComponentClient();
